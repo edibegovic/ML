@@ -24,8 +24,15 @@ With all points being placed equidistantly on a circle, it is easy to see that n
 
 ![Screenshot 2019-09-01 at 11.04.05](/Users/edibegovic/Desktop/Screenshot 2019-09-01 at 11.04.05.png)
 
-
+With points arrannged in an alternating order, it wound't be possible to seperate the two groups.
 
 **2.10.11**
 
 Using a simple.. 8
+
+
+
+**Programing Exercise 1.1**
+
+B) You can't really describe a trigonometric function be a polynomial.
+

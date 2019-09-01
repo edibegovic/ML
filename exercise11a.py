@@ -15,10 +15,9 @@ def get_polynomial(order):
 def plot_polynomial(polynomial):
     p = np.poly1d(polynomial)
     xp = np.linspace(-2, 6, 1000)
-    plt.plot(x, y, '.', xp, p(xp), '-')
+    plt.plot(x, y, '.', xp, p(xp), '-', xp, np.sin((-3/2)*3.14*xp) + (1/3) * np.sin(5*3.14*xp), '--')
     plt.ylim(-2, 2)
     plt.xlim(-1, 1.5)
     plt.show()
 
-plot_polynomial(get_polynomial(9))
-
+plot_polynomial(get_polynomial(2))
