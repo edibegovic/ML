@@ -20,4 +20,4 @@ def plot_polynomial(polynomial):
     plt.xlim(-1, 1.5)
     plt.show()
 
-plot_polynomial(get_polynomial(2))
+plot_polynomial(get_polynomial(9))
