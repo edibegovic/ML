@@ -36,9 +36,21 @@ $$
 
 
 
+**3.7.10**
+
+Approximating the gaussian distribution builds purely on the central limit theorem, by sampling sums of of our samples.
 
 
+$$
+\mu = \frac{(b-a)}{\sqrt{12} ~ \cdot ~sd}
+$$
+ $sd$ referencing our wanted distribution. 
 
+Computationally, this is a bit of a monster to deal with, when only having the explicitly defined histogram resolution for visualisation. 
+
+Using an inverse CDF is possible, but as the inverse CDF for the normal distribution is not defined, we have to settle with an estimation, which theoretically comes with a measureble bias.
+
+ 
 
 
 
