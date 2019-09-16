@@ -1,10 +1,4 @@
 
-import numpy as np
-from numpy import genfromtxt
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-
 bodyfat_data = genfromtxt('bodyfat.txt', delimiter=',')
 N = len(bodyfat_data[:, 0])
 fat = bodyfat_data[:, 1]
@@ -17,12 +11,9 @@ X = np.transpose(np.array([fat - m[0], abdom - m[1]]))
 # Covariance matrix
 C = np.dot(np.transpose(X), X)/N
 
-# Eigenvalues and cooresponding vectors
+# Eigenvalues and cooresponding vectors (pricipal components)
 e_val = np.linalg.eig(C)[0]
-e_vec = np.linalg.eig(C)[1]
-
-# Eigenvectors sorted (principal components)
-W = e_vec
+W = np.linalg.eig(C)[1]
 
 # [PLOTS] OG points, mean-shifted points and PC
 plt.scatter(fat, abdom, color='blue', s=15)
@@ -43,7 +34,9 @@ plt.show()
 # 1D reconstruction of X
 Z_1D = np.array([Z[1], [0]*N])
 
+# [PLOTS] Reconstruction of X, K=1
 X_approx = np.dot(np.transpose(W), Z_1D)
+plt.scatter(Z[1], Z[0], color='red', s=15)
 plt.scatter(fat, abdom, color='blue', s=15)
 plt.scatter(X_approx[1]+m[0], X_approx[0]+m[1], color='red', s=15)
 plt.show()
@@ -74,6 +67,11 @@ plt.show()
 
 
 
+import numpy as np
+from numpy import genfromtxt
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 def abline(slope, intercept):
     axes = plt.gca()
     x_vals = np.array(axes.get_xlim())
