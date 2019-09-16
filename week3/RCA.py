@@ -22,19 +22,48 @@ e_val = np.linalg.eig(C)[0]
 e_vec = np.linalg.eig(C)[1]
 
 # Eigenvectors sorted (principal components)
-W = np.flip(e_vec, 0)
+W = e_vec
 
-
-Z = np.dot(np.transpose(W), np.transpose(X))
-
-# K = 2 projection
-plt.scatter(Z[0], Z[1], color='red', s=15)
-
-# K = 1 projection
-plt.scatter(Z[0], [0]*N, color='green', s=15)
-
-# OG values
+# OG points, mean-shifted points and PC
 plt.scatter(fat, abdom, color='blue', s=15)
-
+plt.scatter(np.transpose(X)[0], np.transpose(X)[1], color='red', s=15)
+abline(1.366, [0,0])
+abline(-0.733, [0,0])
 plt.show()
 
+# Projection
+Z = np.dot(np.transpose(W), np.transpose(X))
+# K = 2 projection
+plt.scatter(Z[0], Z[1], color='red', s=15)
+# K = 1 projection
+plt.scatter(Z[0], [0]*N, color='green', s=15)
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def abline(slope, intercept):
+    axes = plt.gca()
+    x_vals = np.array(axes.get_xlim())
+    y_vals = intercept + slope * x_vals
+    plt.plot(x_vals, y_vals, '--')
