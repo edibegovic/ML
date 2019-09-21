@@ -1,31 +1,62 @@
 
 import numpy as np
+import random
 from numpy import linalg as la
 from random import uniform
+from sklearn.metrics import confusion_matrix
 
 iris_data = np.genfromtxt('iris.txt', delimiter=',')
 iris_labels = np.genfromtxt('iris_labels.txt', delimiter=',')
- 
-x = iris_data
 
-k = 3
-
-# initial k reference vectors
-m = [[uniform(min(x[:, i]), max(x[:, i])) for i in range(x.shape[1])] for _ in range(k)]
-m = random.sample(list(x), k) 
-
-for _ in range(1000):
-    b = [min([(j, la.norm(i-l)) for j, l in enumerate(m)], key = lambda t: t[1])[0] for i in x]
+# EXERCISE A
+def k_means(x, k):
+    # initial k reference vectors
+    m = random.sample(list(x), k) 
     g_class = lambda l, b, c: [l[idx] for idx, val in enumerate(b) if val == c]
-    m = [sum(g_class(x, b, i))/len(g_class(x, b, i)) for i, _ in enumerate(m)]
-np.transpose(np.array([b, iris_labels]))
+    for _ in range(5):
+        b = [min([(j, la.norm(i-l)) for j, l in enumerate(m)], key = lambda t: t[1])[0] for i in x]
+        m = [sum(g_class(x, b, i))/len(g_class(x, b, i)) for i, _ in enumerate(m)]
+    return (b, m)
+
+def k_means_optimal(x, k, n = 20):
+    km = [k_means(x, k) for _ in range(n)]
+    var = [sum([la.norm(vec-m[1][m[0][idx]]) for idx, vec in enumerate(x)]) for m in km]
+    return km[min(enumerate(var), key = lambda t: t[1])[0]]
 
 
-len([_ for a in [1,2,3,6,2,3,6,2] if a == 2])
+# EXERCISE B
+k3 = k_means_optimal(iris_data, 3)[0]
+np.transpose(np.array([k3, iris_labels]))
 
-len(list(filter(lambda a: a == 2, [1,2,3,6,2,3,6,2])))
+# EXERCISE D
+def get_confusion_matrix(est):
+    freq = lambda l: max(set(l), key = l.count)
+    replace = lambda l, f, r: [r if x == f else x for x in l]
+    est = list(map(lambda x:x+3, est))
+    order = [(freq(est[:50])),(freq(est[50:100])), (freq(est[100:]))]
+    for idx, val in enumerate(order):
+        est = replace(est, val, idx+1)
+    return confusion_matrix(iris_labels, est)
 
-p = [1,2,3,4,5,6,7,8,9]
-np.random.choice(p, 3, replace=False)
+# EXERCISE C
+get_confusion_matrix(k_means_optimal(iris_data, 3)[0])
 
-q = lambda x, t: x+t 
+lim_v = lambda c: k_means_optimal(iris_data[:, c], 3)[0]
+get_confusion_matrix(lim_v([0,1]))
+get_confusion_matrix(lim_v([0,2]))
+get_confusion_matrix(lim_v([1,2])) 
+get_confusion_matrix(lim_v([1,3]))
+get_confusion_matrix(lim_v([2,3]))
+
+# The third class always seem to be confused, while the 
+# first class is always correctly classified.
+#
+# [1, 2] is basically as good as using all values.
+# [2, 3] and [3, 4] are better than using all values.
+
+
+
+# BONUS
+import cv2
+
+
