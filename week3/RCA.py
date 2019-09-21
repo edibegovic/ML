@@ -1,4 +1,10 @@
 
+import numpy as np
+from numpy import genfromtxt
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
 bodyfat_data = genfromtxt('bodyfat.txt', delimiter=',')
 N = len(bodyfat_data[:, 0])
 fat = bodyfat_data[:, 1]
@@ -52,26 +58,6 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import numpy as np
-from numpy import genfromtxt
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
 def abline(slope, intercept):
     axes = plt.gca()
     x_vals = np.array(axes.get_xlim())
