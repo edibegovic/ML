@@ -61,11 +61,13 @@ def k_means_image(path, k):
     flatten = lambda l: [item for sublist in l for item in sublist]
     img_arr = cv2.imread(path)
     height, width, depth = img_arr.shape
-    k = np.array(flatten([img_arr[x, :, :] for x in range(img_arr.shape[0])]))
-    _, ref_col = k_means(k[:, :], 3)
-    applied_ref_cols = ([min([(l, la.norm(i-l)) for j, l in enumerate(ref_col)], key = lambda t: t[1])[0] for i in k])
+    flat_img = np.array(flatten([img_arr[x, :, :] for x in range(img_arr.shape[0])]))
+    _, ref_col = k_means(flat_img[:, :], k)
+    applied_ref_cols = ([min([(l, la.norm(i-l)) for j, l in enumerate(ref_col)], key = lambda t: t[1])[0] for i in flat_img])
     re_shaped = np.array([[applied_ref_cols.pop(0) for _ in range(width)] for x in range(height)])
     cv2.imwrite('k_means_imgage.jpg', re_shaped)
 
-# Takes a few minues
-k_means_image("tree.jpg", k=3)
+# Takes a few minues..
+k_means_image("tree.jpg", k=4)
+
+
