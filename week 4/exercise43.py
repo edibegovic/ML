@@ -68,6 +68,5 @@ def k_means_image(path, k):
     cv2.imwrite('k_means_imgage.jpg', re_shaped)
 
 # Takes a few minues..
-k_means_image("tree.jpg", k=4)
-
+k_means_image("tree.jpg", k=2)
 
