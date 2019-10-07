@@ -27,5 +27,3 @@ controur_plot(lambda x1, x2: N(x1, x2, 0, 0, 1, 2, 0))
 controur_plot(lambda x1, x2: N(x1, x2, 0, 0, 2, 1, 0))
 controur_plot(lambda x1, x2: N(x1, x2, 0, 0, 1, 1, 0.5))
 controur_plot(lambda x1, x2: N(x1, x2, 0, 0, 1, 1, -0.75))
-
-
