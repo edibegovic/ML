@@ -9,16 +9,8 @@ import matplotlib.pyplot as plt
 def gaussian(x, mean = 0, var = 1):
     return 1/m.sqrt(2*m.pi*var)*m.exp(-(x-mean)**2/(2*var))
 
-# EXERCISE B
-x = np.arange(-5, 5, 0.1)
-plt.plot(x, [gaussian(k, 0, 1) for k in x])
-plt.plot(x, [gaussian(k, 3, 1) for k in x])
-plt.plot(x, [gaussian(k, 0, 5) for k in x])
-plt.xlim(-5, 5)
-plt.show()
 
-
-# EXERCISE C
+# EXERCISE B + C
 
 # mean 0, variance 1
 x = np.arange(-5, 5, 0.1)
