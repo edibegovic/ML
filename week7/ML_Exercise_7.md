@@ -63,7 +63,7 @@ g(\mathbf{x})
 $$
 
 
-If it's simply implied that the discriminant function "takes" the origional attributes and we do the transformations as part of the function, we get: 
+If it's simply implied that the discriminant function "takes" the original attributes and we do the transformations as part of the function, we get: 
 $$
 g(\mathbf{x})
 =
@@ -85,11 +85,13 @@ $g(\mathbf{x}_4) = 1 \cdot -1 = -1$
 
 
 
+**13.16.10**
 
+***Let us say we have two representations for the same object and associated with each, we have a different kernel. How can we use both to implement a joint dimensionality reduction using kernel PCA?***
 
+An apporach would be to combine the conceepts of multiple kernel learning to generate a (more general) kernel and afterwards applying PCA on the kernel matrix, as the kernel values give us an idea about the similarity of the inputs. 
 
-
-
+ Further, as mentioned in the book, having projected the inputs from our high dimensional kernel space onto the principal components, we can use this new representation both for a linear SVM or for visual representation (exploratory). As we can also multiply the kernels with some constant, one could also experiment with various wheigts when adding together the various kernels (and thus the impact of the different data sources/representations).
 
 
 
