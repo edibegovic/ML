@@ -1,4 +1,5 @@
 
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 import tensorflow.compat.v1 as tf
 import numpy as np
@@ -6,22 +7,20 @@ import random
 tf.disable_v2_behavior()
 
 # -------- Generating data --------
-mul_norm1 = list(zip(np.random.multivariate_normal([0, 0], [[1, 0], [0, 1]], 1000), [0]*1000))
-mul_norm2 = list(zip(np.random.multivariate_normal([2, 0], [[4, 0], [0, 4]], 1000), [1]*1000))
+mul_norm1 = list(zip(np.random.multivariate_normal([0, 0], [[1, 0], [0, 1]], 1000), [[1, 0]]*1000))
+mul_norm2 = list(zip(np.random.multivariate_normal([2, 0], [[4, 0], [0, 4]], 1000), [[0, 1]]*1000))
 
 combined_data = mul_norm1 + mul_norm2
 random.shuffle(combined_data)
 
-x_train, t_train = np.split(np.array(combined_data), 2)[0].T
-x_test, t_test = np.split(np.array(combined_data), 2)[1].T
+x_train, x_test = np.split(np.array(combined_data)[:, 0], 2)
+t_train, t_test = np.split(np.array(combined_data)[:, 1], 2)
 
-f = lambda a: np.array([a_ for a_ in a])
-g = lambda a: np.reshape(a, (len(a), 1))
 
 # -------- Neural network --------
 n_input = 2
 n_hidden = 2
-n_output = 1
+n_output = 2
 
 x = tf.placeholder("float", [None, n_input])
 y = tf.placeholder("float", [None, n_output])
@@ -36,29 +35,42 @@ b = {
     'out': tf.Variable(tf.random_normal([n_output]))
 }
 
-l1 = tf.add(tf.matmul(x, W['h1']), b['b1'])
-l1 = tf.nn.relu(l1)
-out_layer = tf.matmul(l1, W['out']) + b['out']
-y = tf.nn.softmax(out_layer)
+def mlp(x):
+    l1 = tf.add(tf.matmul(x, W['h1']), b['b1'])
+    l1 = tf.nn.relu(l1)
+    out_layer = tf.matmul(l1, W['out']) + b['out']
+    return out_layer
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=out_layer, labels=y))
+predictions = mlp(x)
+
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=predictions, labels=y))
 optimizer = tf.train.MomentumOptimizer(learning_rate = 0.1, momentum = 0.5).minimize(cost)
 
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
     
-    for epoch in range(10000):
-        _, loss_value = session.run([optimizer, cost], feed_dict={x: f(x_train), y: g(t_train)})
-        
+    for epoch in range(3000):
+        _, loss_value = session.run([optimizer, cost], feed_dict={x: x_train, y: t_train})
+
         if epoch % 1000 == 0:
             print("Epoch: ", epoch, "loss =", loss_value)            
             
-    print("Optimization done")
-
-
     print("Done :)")
-    print()
 
-    k = session.run(y, feed_dict={x: f(x_test)})
-    print(k)
+    pred = session.run(predictions, feed_dict={x: (x_test)})
+    preds.append(np.argmax(pred, 1))
+
+
+# -------- Ensemble --------
+
+preds = []
+
+for idx, p in enumerate(preds):
+    print("Model", idx, " - ", accuracy_score(np.argmax(t_test, 1), p))
+
+round_i = lambda a: [int(round(a_)) for a_ in a]
+ensemble_preds = round_i(np.sum(preds, axis=0)/len(preds))
+print()
+print("Ensemble  - ", accuracy_score(np.argmax(t_test, 1), p))
+
 
