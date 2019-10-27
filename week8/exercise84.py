@@ -45,10 +45,8 @@ for _ in range(100):
 # Pretty print 🌈
 %clear
 mapping = ["🎉", "↓", "←", "→"]
-out = np.array([' '.join(k) 
+out = '\n'.join(([' '.join(k) 
       for k in np.array([mapping[np.argmax(a)]
       for a in Q.reshape(20, 4)])
-      .reshape(4, 5)]).reshape(4, 1)
-for m in out:
-    print(m[0])
-
+      .reshape(4, 5)]))
+print(out)
