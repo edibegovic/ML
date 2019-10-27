@@ -20,9 +20,11 @@ If all the base-learners are based off the same algorithm, I guess it would have
 
 
 
+**18.9.1**
 
+***Given the grid world in figure 16.10, if the reward on reaching on the goal is $100$ and $γ = 0.9$, calculate manually $Q'(s,a)$, $V'(S)$, and the actions of optimal policy.***
 
-
+![82drawing](/Users/edibegovic/Dropbox/ITU/ML/week8/82drawing.png)
 
 
 

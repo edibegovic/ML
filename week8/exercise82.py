@@ -71,6 +71,4 @@ for idx, p in enumerate(preds):
 round_i = lambda a: [int(round(a_)) for a_ in a]
 ensemble_preds = round_i(np.sum(preds, axis=0)/len(preds))
 print()
-print("Ensemble  - ", accuracy_score(np.argmax(t_test, 1), p))
-
-
+print("Ensemble  - ", accuracy_score(np.argmax(t_test, 1), ensemble_preds))
