@@ -49,13 +49,8 @@ optimizer = tf.train.MomentumOptimizer(learning_rate = 0.1, momentum = 0.5).mini
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
     
-    for epoch in range(3000):
-        _, loss_value = session.run([optimizer, cost], feed_dict={x: x_train, y: t_train})
-
-        if epoch % 1000 == 0:
-            print("Epoch: ", epoch, "loss =", loss_value)            
-            
-    print("Done :)")
+    for epoch in range(10000):
+        _, _ = session.run([optimizer, cost], feed_dict={x: x_train, y: t_train})
 
     pred = session.run(predictions, feed_dict={x: (x_test)})
     preds.append(np.argmax(pred, 1))
