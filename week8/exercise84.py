@@ -10,7 +10,7 @@ pos = [0, 0]
 goal_pos = [3, 4]
 epsilon = 0.9
 lr = 0.2
-dr = 0.5
+dr = 0.9
 
 def next_action():
     if random.uniform(0, 1) < epsilon:
@@ -50,3 +50,4 @@ out = '\n'.join(([' '.join(k)
       for a in Q.reshape(20, 4)])
       .reshape(4, 5)]))
 print(out)
+np.array([[np.max(a)] for a in Q.reshape(20, 4)]).reshape(4, 5)
