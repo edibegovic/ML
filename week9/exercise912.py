@@ -20,11 +20,13 @@ pi_est
 
 def trans_prob(a, b):
     sequences_flat = np.array(sequences).flatten()
-    ab_total = 0
-    for i in range(len(sequences_flat)-1):
-        if sequences_flat[i] == a and sequences_flat[i+1] == b:
-            ab_total += 1
+    ab_total = count_seq(a, b, sequences_flat)
     return ab_total/len([_ for _ in sequences_flat if _ == a])
 
 A_est = np.array([[trans_prob(a, b) for b in range(3)] for a in range(3)]).reshape(3, 3)
 np.around(A_est, decimals = 2)
+
+def count_seq(a, b, l):
+    pair = lambda acc, cur: (cur, acc[1]+1) if cur==b and acc[0]==a else (cur, acc[1])
+    return reduce(pair, l, (None, 0))[1]
+
