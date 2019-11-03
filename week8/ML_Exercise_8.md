@@ -18,6 +18,8 @@ If all the base-learners are based off the same algorithm, I guess it would have
 
 ***In mixture of experts, we can have different experts use different input representations. How can we design the gating network in such a case?*** 
 
+¯\\_(ツ)_/¯  
+
 
 
 **18.9.1**
